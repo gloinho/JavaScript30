@@ -58,7 +58,22 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  function playSound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio) return; //Para a função se não tiver um audio associado com a letra pressionada
+    audio.currentTime = 0; //Volta o audio para o começo para se repetir varias vezes.
+    audio.play()
+    key.classList.add('playing');
+  }
+  function removeTransition(e){
+    if (e.propertyName !== 'transform') return; // Pula a propriedade se não for 'transform'
+    this.classList.remove('playing')
+  }
 
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+  window.addEventListener('keydown', playSound );
 </script>
 
 
